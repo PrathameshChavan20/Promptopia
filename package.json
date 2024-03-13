@@ -6,12 +6,28 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "worker": "node app/api/queue/emailWorker.js",
+    "dev:worker": "concurrently \"yarn dev\" \"yarn worker\""
   },
   "dependencies": {
+    "axios": "^1.6.7",
+    "bcrypt": "^5.1.1",
+    "bullmq": "^5.4.1",
+    "concurrently": "^8.2.2",
+    "dotenv": "^16.4.5",
+    "firebase": "^10.8.1",
+    "firebase-admin": "^12.0.0",
+    "ioredis": "^5.3.2",
+    "mongodb": "^6.4.0",
+    "mongoose": "^8.2.0",
+    "monsterapi": "^0.0.3",
+    "multer": "^1.4.5-lts.1",
+    "next": "14.1.0",
+    "next-auth": "^4.24.6",
+    "nodemailer": "^6.9.11",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.1.0"
+    "react-dom": "^18"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",
