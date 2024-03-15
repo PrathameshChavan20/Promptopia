@@ -3,11 +3,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import { useRouter} from "next/navigation";
 
 const Nav = () => {
   const { data: session } = useSession();
   const [providers, setProviders] = useState(null);
   const [toggleDropwdown, setToggleDropwdown] = useState(false);
+  const router = useRouter();
   useEffect(() => {
     const setUpProviders = async () => {
       const response = await getProviders();
@@ -17,7 +19,7 @@ const Nav = () => {
   }, []);
   return (
     <nav className="flex-between w-full mb-16 pt-3">
-      <Link href="/login" className="flex gap-2 flex-center">
+      <Link href="/" className="flex gap-2 flex-center">
         <Image
           src="/assets/images/logo.svg"
           width={30}
@@ -30,24 +32,7 @@ const Nav = () => {
       <div className="sm:flex hidden">
         {session?.user ? (
           <div className="flex gap-3 md:gap-1">
-            <Link href="/create-prompt" className="black_btn">
-              Create Post
-            </Link>
-            <Link
-                  href="/create-image"
-                  className="black_btn"
-                  onClick={() => setToggleDropwdown(false)}
-                >
-                  Text to Image
-                </Link>
-                <Link
-                  href="/create-speech"
-                  className="black_btn"
-                  onClick={() => setToggleDropwdown(false)}
-                >
-                  Text to Speech
-                </Link>
-            <Link href="/profile">
+              <Link href="/profile">
               <Image
                 src={session?.user?.image}
                 height={38}
@@ -69,7 +54,7 @@ const Nav = () => {
                   }}
                   className="black_btn"
                 >
-                  Sign with {provider.name}
+                 Sign In with <Image className="ml-2" src={"https://img.icons8.com/color/48/google-logo.png"} height={20} width={20}></Image>
                 </button>
               ))}
           </div>
@@ -121,10 +106,11 @@ const Nav = () => {
                 </Link>
                 <button
                   type="button"
-                  className="black_btn mt-3 w-full"
+                  className="font-inter font-semibold bg-red-500 p-1 w-full rounded-lg text-white"
                   onClick={() => {
                     setToggleDropwdown(false);
                     signOut();
+                    router.push("/");
                   }}
                 >
                   Sign Out
@@ -142,7 +128,7 @@ const Nav = () => {
                   onClick={() => signIn(provider.id)}
                   className="black_btn"
                 >
-                  Sign In with {provider.name}
+                  Sign In with <Image className="ml-2" src={"https://img.icons8.com/color/48/google-logo.png"} height={20} width={20}></Image>
                 </button>
               ))}
           </div>

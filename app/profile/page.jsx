@@ -45,7 +45,7 @@ const MyProfile = () => {
   return (
     <div>
       <Profile
-        name="myProfile"
+        name={session?.user?.name}
         desc="Welcome to your personlized profile page."
         data={posts}
         handleEdit={handleEdit}

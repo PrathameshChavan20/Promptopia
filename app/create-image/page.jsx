@@ -1,5 +1,5 @@
 "use client";
-
+import { toast } from "react-hot-toast";
 import { useState } from "react";
 import GenerationPromptForm from "@/components/GenerationPromptForm";
 
@@ -24,13 +24,24 @@ const CreateImage = () => {
             "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5",
         }),
       });
+      if (response.status != 200) {
+        const data = await response.json();
+        toast.error(data.message, {
+          duration: 5000,
+        });
+        setPost({ prompt: "" });
+        setImgRes(null);
+        setImageSkeleton(false);
+        return;
+      }
+
       const buffer = await response.arrayBuffer();
       const blob = new Blob([buffer], { type: "image/png" });
       const imageURL = URL.createObjectURL(blob);
       setImgRes(imageURL);
       setImageSkeleton(true);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     } finally {
       setIsSubmitting(false);
     }

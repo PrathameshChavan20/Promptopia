@@ -25,11 +25,21 @@ const CreateSpeech = () => {
             "https://api-inference.huggingface.co/models/facebook/mms-tts-eng",
         }),
       });
+      if (response.status != 200) {
+        const data = await response.json();
+        toast.error(data.message, {
+          duration: 5000,
+        });
+        setPost({ prompt: "" });
+        setaudioURL("");
+        setaudioSkeleton(false)
+        return;
+      }
       const buffer = await response.arrayBuffer();
       const blob = new Blob([buffer], { type: "audio/mpeg" });
       const audioURL = URL.createObjectURL(blob);
       setaudioURL(audioURL);
-      setaudioSkeleton(true)
+      setaudioSkeleton(true);
     } catch (error) {
       console.log(error);
     } finally {

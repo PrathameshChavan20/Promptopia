@@ -23,9 +23,9 @@ const createPromptForm = ({
 
   return session?.user ? (
     <div>
-      <section className="w-full max-w-full flex-start flex-col mb-10">
+    <section className="max-w-2xl mb-24"> 
         <h1 className="head_text text-left">
-          <span className="orange_gradient">
+          <span className="green_gradient">
             {type} an AI Powered {creationType}
           </span>
         </h1>
@@ -44,7 +44,7 @@ const createPromptForm = ({
                 What's in your mind?
               </span>
 
-              <input
+              <textarea
                 className="form_input w-fit"
                 placeholder="Enter your prompt here..."
                 required={true}
@@ -77,7 +77,7 @@ const createPromptForm = ({
                 height={300}
                 className="object-contain rounded-lg"
                 src={imgRes}
-                alt="image"
+                alt="generated_img"
               />
             </section>
           ) : null}
@@ -101,7 +101,7 @@ const createPromptForm = ({
           </div>
         ) : null}
       </section>
-    </div>
+      </div>
   ) : (
     <Unauthorised />
   );

@@ -1,5 +1,5 @@
 "use client";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import PromptsCard from "@/components/PromptsCard";
@@ -8,9 +8,9 @@ const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
   const router = useRouter();
   return session?.user ? (
     <div>
-      <section className="w-full">
+      <section className="max-w-3xl">
         <h2 className="head_text text-left">
-          <span className="blue_gradient">{name} Profile </span>
+          <span className="purple_gradient">Hello, {name}</span>
         </h2>
         <p className="desc text-left">{desc}</p>
         <div className="mt-10 prompt_layout">
@@ -27,18 +27,6 @@ const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
             />
           ))}
         </div>
-        <section>
-          <button
-            type="button"
-            className="bg-red-500 text-white w-full font-inter rounded-lg p-1"
-            onClick={() => {
-              signOut({redirect:false});
-              router.push("/");
-            }}
-          >
-            Sign Out
-          </button>
-        </section>
       </section>
     </div>
   ) : (
