@@ -1,8 +1,11 @@
 import "@/styles/globals.css";
 import Nav from "@/components/Nav";
 import Provider from "@/components/Provider";
+import Sidebar from "@/components/Sidebar";
 const dotenv = require("dotenv");
 dotenv.config();
+import { Toaster } from "react-hot-toast";
+
 export const metadata = {
   tittle: "Promptopia",
   description: "Discover and Share AI Prompts",
@@ -16,7 +19,9 @@ const Rootlayout = ({ children }) => {
             <div className="gradient" />
           </div>
           <main className="app">
+            <Toaster position="top-right" />
             <Nav />
+            <Sidebar />
             {children}
           </main>
         </Provider>
