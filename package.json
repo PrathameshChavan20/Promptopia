@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "worker": "node app/api/queue/emailWorker.js",
-    "dev:worker": "concurrently \"yarn dev\" \"yarn worker\""
+    "concurrent": "concurrently \"yarn dev\" \"yarn worker\""
   },
   "dependencies": {
     "axios": "^1.6.7",
