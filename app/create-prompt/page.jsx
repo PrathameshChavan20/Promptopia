@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
+import { toast } from "react-hot-toast";
 import Form from "@/components/Form";
 
 const CreatePrompt = () => {
@@ -11,37 +11,48 @@ const CreatePrompt = () => {
   const { data: session } = useSession();
 
   const [submitting, setIsSubmitting] = useState(false);
-  const [post, setPost] = useState({ prompt: "", tag: "", file: null });
+  const [post, setPost] = useState({ prompt: "", tag: "" });
+  const [file, setFile] = useState(null);
 
   const handleFileChange = (file) => {
-    alert(file.name);
-    const reader = new FileReader();
-    reader.readAsArrayBuffer(file);
-    reader.onload = () => {
-      setPost({ ...post, file: reader.result });
-      console.log(reader.result);
-    };
-    setPost({ ...post, file: file });
+    setFile(file);
   };
   const createPrompt = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      // const formData = new FormData();
-      // formData.append("file", post.file);
-      const response = await fetch("/api/prompt/new", {
+      let data = null;
+      if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+        const response = await fetch("api/upload", {
+          method: "POST",
+          body: formData,
+        });
+        if (!response.ok) {
+          toast.error("Error in file uploading...");
+          setFile(null);
+        }
+        data = await response.json();
+      }
+
+      const response2 = await fetch("/api/prompt/new", {
         method: "POST",
         body: JSON.stringify({
           prompt: post.prompt,
           userId: session?.user.id,
           tag: post.tag,
+          imageURL: data ? data.url : null,
         }),
       });
 
-      if (response.ok) {
-        router.push("/");
+      if (!response2.ok) {
+        toast.error("Error in posting...");
+        setPost({ prompt: "", tag: "" });
       }
+      toast.success("Post created succesfully.", { duration: 5000 });
+      router.push("/");
     } catch (error) {
       console.log(error);
     } finally {

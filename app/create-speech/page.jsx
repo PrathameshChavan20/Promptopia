@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "react-hot-toast";
 import { useState } from "react";
 import GenerationPromptForm from "@/components/GenerationPromptForm";
 
@@ -25,7 +26,7 @@ const CreateSpeech = () => {
             "https://api-inference.huggingface.co/models/facebook/mms-tts-eng",
         }),
       });
-      if (response.status != 200) {
+      if (response.status != 200) {      
         const data = await response.json();
         toast.error(data.message, {
           duration: 5000,

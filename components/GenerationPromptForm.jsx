@@ -23,25 +23,61 @@ const createPromptForm = ({
 
   return session?.user ? (
     <div>
-    <section className="max-w-2xl mb-24"> 
+      <section className="max-w-2xl mb-24">
         <h1 className="head_text text-left">
-          <span className="green_gradient">
-            {type} an AI Powered {creationType}
-          </span>
+          {creationType === "Image" ? (
+            <span className="green_gradient">
+              {type} an AI Powered {creationType}
+            </span>
+          ) : creationType === "Speech" ? (
+            <span className="grey_gradient">
+              {type} an AI Powered {creationType}
+            </span>
+          ) : null}
         </h1>
-        <p className="desc text-left max-w-md">
-          and share amazing art work with the world, and let you imagination run
-          wild with any AI powered platform
-        </p>
+        {creationType === "Image" ? (
+          <p className="desc text-left max-w-md">
+            Revolutionize creativity with our AI imaging platform, blending
+            advanced algorithms and your ideas into captivating visuals. Explore
+            endless aesthetic possibilities.
+          </p>
+        ) : null}
+        {creationType === "Speech" ? (
+          <p className="desc text-left max-w-md">
+            Transform your ideas into articulate speech with our AI-powered
+            tool. Sophisticated yet user-friendly, it unlocks infinite
+            possibilities for vocal expression.
+          </p>
+        ) : null}
 
         <div className="w-full">
           <form
             className="mt-10 w-full max-w2xl flex-col gap-7 glassmorphism"
             onSubmit={handleSubmit}
           >
+            <p className="font-inter font-semibold flex-center mt-2 mb-8  text-gray-700">
+              default LLM :
+              {creationType === "Image" ? (
+               <span className="ml-1 flex-center">
+               stable-diffusion-v1-5 by RunwayML
+               
+               <Image width="25" height="25" src="https://img.icons8.com/3d-fluency/94/robot-1.png" alt="runwayml logo" className="ml-2"/>
+             </span>
+              ) : creationType === "Speech" ? (              
+              <span className="ml-1 flex">
+                  mms-tts-eng by META
+                  
+                  <Image width="20" height="20" src="https://img.icons8.com/fluency/48/meta.png" alt="meta" className="ml-2"/>
+                </span>
+              ) : null}
+            </p>
             <label>
               <span className="font-satoshi font-semibold text-base text-blue-500 mb-4">
-                What's in your mind?
+                {creationType === "Image"
+                  ? "What do you want to visualize?"
+                  : creationType === "Speech"
+                  ? "what your ears eagering for?"
+                  : null}
               </span>
 
               <textarea
@@ -101,7 +137,7 @@ const createPromptForm = ({
           </div>
         ) : null}
       </section>
-      </div>
+    </div>
   ) : (
     <Unauthorised />
   );

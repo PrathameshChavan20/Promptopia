@@ -8,7 +8,7 @@ const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
   const router = useRouter();
   return session?.user ? (
     <div>
-      <section className="max-w-3xl">
+      <section>
         <h2 className="head_text text-left">
           <span className="purple_gradient">Hello, {name}</span>
         </h2>

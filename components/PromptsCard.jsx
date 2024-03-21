@@ -1,14 +1,13 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 // Ensure all necessary imports are included
 
 const PromptsCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
   const [copied, setCopied] = useState(null); // Changed to null for initial state
   const { data: session } = useSession();
   const pathname = usePathname();
-  const router = useRouter();
   const handleCopy = () => {
     setCopied(post.prompt); // Assuming post is directly the post object
     navigator.clipboard.writeText(post.prompt);
@@ -50,6 +49,15 @@ const PromptsCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
             height={12}
           />
         </div>
+      </div>
+      <div>
+        {post?.imageURL ? (
+          <img
+            src={post?.imageURL}
+            className="flex-center justify-center mt-5 mb-5 object-contain max-w-full"
+            alt="prompt_image"
+          ></img>
+        ) : null}
       </div>
       <p className="my-4 font-satoshi text-sm text-gray-700">{post.prompt}</p>
       <p

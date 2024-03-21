@@ -2,6 +2,7 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import Unauthorised from "@/components/Unauthorised";
+import SpinnerButton from "@/components/SpinnerButton";
 
 const Form = ({
   type,
@@ -108,7 +109,7 @@ const Form = ({
               disabled={submitting}
               className="px-5 py-1.5 text-md bg-primary-orange rounded-full mt-5 text-white"
             >
-              {submitting ? type + "..." : type}
+              {submitting ? <SpinnerButton title="Posting"/> : type}
             </button>
           </div>
         </form>

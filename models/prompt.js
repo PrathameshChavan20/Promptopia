@@ -14,9 +14,8 @@ const promptSchema = new Schema({
     type: String,
     required: [true, "Tag is required."],
   },
-  image: {
-    data: Buffer,
-    contentType: String, // To store the MIME type of the image
+  imageURL: {
+    type: String,
   },
 });
 const Prompt = models.Prompt || model("Prompt", promptSchema);
