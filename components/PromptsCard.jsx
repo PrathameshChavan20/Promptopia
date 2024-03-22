@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { toast } from "react-hot-toast";
 // Ensure all necessary imports are included
 
 const PromptsCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
@@ -14,19 +15,32 @@ const PromptsCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
     setTimeout(() => setCopied(null), 3000); // Reset copied state to null
   };
 
+  const openImageOnClick = async()=>{
+    try {
+      if (post.imageURL) {
+        const link = document.createElement("a");
+        link.href = post.imageURL;
+        link.target="_blank"
+        link.click();
+      }
+    } catch (error) {
+      toast.error("Error downloading image:", error);
+    }
+  }
+
   return (
     <div className="prompt_card">
-      <div className="flex justify-between items-start gap-4">
-        <div className="flex-1 flex justify-start items-center cursor-pointer">
+      <div className="flex justify-between items-start">
+        <div className="justify-start items-center cursor-pointer mt-2">
           <Image
             src={post.creator.image}
-            alt="user_image"
-            width={40}
-            height={40}
-            className="rounded-full object-contain"
+            alt="user"
+            width={25}
+            height={25}
+            className="flex rounded-full object-contain"
           />
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col ml-3">
           <h4 className="font-satoshi font-semibold text-gray-900">
             {post.creator.username}
           </h4>
@@ -52,11 +66,14 @@ const PromptsCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
       </div>
       <div>
         {post?.imageURL ? (
-          <img
-            src={post?.imageURL}
-            className="flex-center justify-center mt-5 mb-5 object-contain max-w-full"
-            alt="prompt_image"
-          ></img>
+          <div className="mt-5 mb-5">
+            <img
+              src={post.imageURL}
+              className="flex-center justify-center object-contain max-w-full rounded-md cursor-pointer"
+              alt="prompt_image"
+              onClick={openImageOnClick}
+            />
+          </div>
         ) : null}
       </div>
       <p className="my-4 font-satoshi text-sm text-gray-700">{post.prompt}</p>
