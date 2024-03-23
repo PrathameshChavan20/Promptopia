@@ -1,7 +1,6 @@
 import "@/styles/globals.css";
 import Nav from "@/components/Nav";
 import Provider from "@/components/Provider";
-import Sidebar from "@/components/Sidebar";
 const dotenv = require("dotenv");
 dotenv.config();
 import { Toaster } from "react-hot-toast";
@@ -21,7 +20,6 @@ const Rootlayout = ({ children }) => {
           <main className="app">
             <Toaster position="top-right" />
             <Nav />
-            <Sidebar />
             {children}
           </main>
         </Provider>

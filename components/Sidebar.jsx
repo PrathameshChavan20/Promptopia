@@ -1,22 +1,38 @@
 "use client";
-import { React, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 
-const Sidebar = () => {
+const Sidebar = ({ toggeledValue }) => {
   const { data: session } = useSession();
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
+  const sidebarRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(toggeledValue);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+       setIsOpen(false); // Close the sidebar when clicking outside
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    setIsOpen(toggeledValue); // Update the local isOpen state whenever toggeledValue changes
+  }, [toggeledValue]);
 
   return session?.user ? (
-    <div>
+    <div ref={sidebarRef}>
       <div
         id="docs-sidebar"
-        className={`hs-overlay transition-all duration-300 transform fixed top-0 start-0 bottom-0 z-[60] w-64 bg-white border-e border-gray-200 pt-7 pb-10 overflow-y-auto lg:block lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 dark:bg-gray-800 dark:border-gray-700 ${
-          isOpen ? "translate-x-0 w-64" : "translate-x-1"
+        className={`hs-overlay transition-all duration-300 transform fixed top-0 start-0 bottom-0 z-[60] w-64 bg-white border-e border-gray-200 pt-7 pb-10 overflow-y-auto lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 dark:bg-gray-800 dark:border-gray-700 ${
+          isOpen ? "translate-x-0" : "hidden"
         }`}
       >
         <div className="px-6">
@@ -31,9 +47,6 @@ const Sidebar = () => {
             <p className="logo_text">Promptopia</p>
           </Link>
         </div>
-        <button className="flex mt-5" onClick={(prev) => toggleSidebar()}>
-          Toggle
-        </button>
         <nav
           className="hs-accordion-group p-6 w-full flex flex-col flex-wrap"
           data-hs-accordion-always-open
@@ -52,9 +65,9 @@ const Sidebar = () => {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
                   <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                   <polyline points="9 22 9 12 15 12 15 22" />
@@ -124,7 +137,7 @@ const Sidebar = () => {
                 >
                   <path
                     d="M425.818 709.983V943.41c0 293.551 238.946 532.497 532.497 532.497 293.55 0 532.496-238.946 532.496-532.497V709.983h96.818V943.41c0 330.707-256.438 602.668-580.9 627.471l-.006 252.301h242.044V1920H667.862v-96.818h242.043l-.004-252.3C585.438 1546.077 329 1274.116 329 943.41V709.983h96.818ZM958.315 0c240.204 0 435.679 195.475 435.679 435.68v484.087c0 240.205-195.475 435.68-435.68 435.68-240.204 0-435.679-195.475-435.679-435.68V435.68C522.635 195.475 718.11 0 958.315 0Z"
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                   />
                 </svg>
 
@@ -157,6 +170,7 @@ const Sidebar = () => {
                   width={20}
                   height={20}
                   className="rounded"
+                  alt="logo"
                 />
                 <p className="font-inter font-semibold">Account Setting</p>
               </Link>
