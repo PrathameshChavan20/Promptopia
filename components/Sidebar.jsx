@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
 const Sidebar = ({ toggeledValue }) => {
   const { data: session } = useSession();
@@ -12,7 +13,7 @@ const Sidebar = ({ toggeledValue }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
-       setIsOpen(false); // Close the sidebar when clicking outside
+        setIsOpen(false); // Close the sidebar when clicking outside
       }
     };
 
@@ -27,11 +28,13 @@ const Sidebar = ({ toggeledValue }) => {
     setIsOpen(toggeledValue); // Update the local isOpen state whenever toggeledValue changes
   }, [toggeledValue]);
 
+  const PathName = usePathname();
+
   return session?.user ? (
     <div ref={sidebarRef}>
       <div
         id="docs-sidebar"
-        className={`hs-overlay transition-all duration-300 transform fixed top-0 start-0 bottom-0 z-[60] w-64 bg-white border-e border-gray-200 pt-7 pb-10 overflow-y-auto lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 dark:bg-gray-800 dark:border-gray-700 ${
+        className={`hs-overlay transition-all duration-300 transform fixed top-0 start-0 bottom-0 z-[60] w-64 bg-white border-e border-gray-200 pt-7 pb-10 overflow-y-auto lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 dark:bg-gray-800 dark:border-gray-700 drop-shadow-2xl ${
           isOpen ? "translate-x-0" : "hidden"
         }`}
       >
@@ -54,7 +57,9 @@ const Sidebar = ({ toggeledValue }) => {
           <ul className="space-y-1.5">
             <li>
               <Link
-                className="flex items-center gap-x-3.5 py-2 px-2.5 bg-gray-100 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-900 dark:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                className={`flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-900 dark:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 ${
+                  PathName === "/" ? " bg-gray-100" : null
+                }`}
                 href="/"
               >
                 <svg
@@ -78,7 +83,9 @@ const Sidebar = ({ toggeledValue }) => {
             </li>
             <li>
               <Link
-                className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                className={`flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-900 dark:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 ${
+                  PathName === "/create-prompt" ? " bg-gray-100" : null
+                }`}
                 href="/create-prompt"
               >
                 <svg
@@ -99,7 +106,9 @@ const Sidebar = ({ toggeledValue }) => {
 
             <li>
               <Link
-                className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                className={`flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-900 dark:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 ${
+                  PathName === "/create-image" ? " bg-gray-100" : null
+                }`}
                 href="/create-image"
               >
                 <svg
@@ -125,7 +134,9 @@ const Sidebar = ({ toggeledValue }) => {
 
             <li>
               <Link
-                className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                className={`flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-900 dark:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 ${
+                  PathName === "/create-speech" ? " bg-gray-100" : null
+                }`}
                 href="/create-speech"
               >
                 <svg
@@ -147,7 +158,9 @@ const Sidebar = ({ toggeledValue }) => {
 
             <li>
               <Link
-                className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                className={`flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-900 dark:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 ${
+                  PathName === "/speech-to-text" ? " bg-gray-100" : null
+                }`}
                 href="/speech-to-text"
               >
                 <img
@@ -162,7 +175,9 @@ const Sidebar = ({ toggeledValue }) => {
 
             <li>
               <Link
-                className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                className={`flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-900 dark:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 ${
+                  PathName === "/profile" ? " bg-gray-100" : null
+                }`}
                 href="/profile"
               >
                 <Image
