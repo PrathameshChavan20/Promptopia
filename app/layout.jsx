@@ -6,9 +6,16 @@ dotenv.config();
 import { Toaster } from "react-hot-toast";
 
 export const metadata = {
-  tittle: "Promptopia",
-  description: "Discover and Share AI Prompts",
+  title: "Promptopia",
+  description:
+    "Promptopia is a AI-powered prompt discovery tool for the modern world.",
+    icons:{
+      icon:[
+        '/favicon.ico'
+      ]
+    }
 };
+
 const Rootlayout = ({ children }) => {
   return (
     <html lang="eng">
