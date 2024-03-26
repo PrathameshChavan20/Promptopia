@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Form from "@/components/Form";
-
+import { toast } from "react-hot-toast";
 const EditPrompt = () => {
   const router = useRouter();
   const [submitting, setIsSubmitting] = useState(false);
@@ -25,7 +25,7 @@ const EditPrompt = () => {
   const updatePrompt = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    if (!promptId) return alert("Prompt id is missing");
+    if (!promptId) return toast.error("Prompt id is missing!");
     try {
       const response = await fetch("/api/prompt/" + promptId, {
         method: "PATCH",
@@ -37,6 +37,9 @@ const EditPrompt = () => {
 
       if (response.ok) {
         router.push("/");
+        toast.success("Changes made successfully.",{
+          duration:5000
+        })
       }
     } catch (error) {
       console.log(error);
