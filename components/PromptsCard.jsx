@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { toast } from "react-hot-toast";
-// Ensure all necessary imports are included
 
 const PromptsCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
   const [copied, setCopied] = useState(null); // Changed to null for initial state
@@ -15,18 +14,18 @@ const PromptsCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
     setTimeout(() => setCopied(null), 3000); // Reset copied state to null
   };
 
-  const openImageOnClick = async()=>{
+  const openImageOnClick = async (contentURL) => {
     try {
-      if (post.imageURL) {
+      if (contentURL) {
         const link = document.createElement("a");
-        link.href = post.imageURL;
-        link.target="_blank"
+        link.href = contentURL;
+        link.target = "_blank";
         link.click();
       }
     } catch (error) {
-      toast.error("Error downloading image:", error);
+      toast.error("Error opening image:", error);
     }
-  }
+  };
 
   return (
     <div className="prompt_card">
@@ -65,13 +64,25 @@ const PromptsCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
         </div>
       </div>
       <div>
-        {post?.imageURL ? (
+        {post?.contentURL && post?.contentType === "image/jpeg" ? (
           <div className="mt-5 mb-5">
             <img
-              src={post.imageURL}
+              src={post.contentURL}
               className="flex-center justify-center object-contain max-w-full rounded-md cursor-pointer"
               alt="prompt_image"
-              onClick={openImageOnClick}
+              onClick={() => {
+                openImageOnClick(post.contentURL);
+              }}
+            />
+          </div>
+        ) : null}
+        {post?.contentURL && post?.contentType === "audio/mpeg" ? (
+          <div className="mt-5 mb-5">
+            <audio
+              controls
+              src={post.contentURL}
+              className="flex-center justify-center object-contain max-w-full rounded-md cursor-pointer"
+              alt="prompt_audio"
             />
           </div>
         ) : null}

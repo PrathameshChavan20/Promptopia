@@ -41,7 +41,7 @@ export const POST = async (request) => {
       return new Response(
         JSON.stringify({
           message:
-            "Our AI model facing high traffic at momment! Please try agin later.",
+            "Our AI model facing high traffic at momment! Please try again later.",
         }),
         {
           status: 503,

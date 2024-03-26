@@ -14,7 +14,10 @@ const promptSchema = new Schema({
     type: String,
     required: [true, "Tag is required."],
   },
-  imageURL: {
+  contentURL: {
+    type: String,
+  },
+  contentType: {
     type: String,
   },
 });

@@ -101,7 +101,7 @@ const CreateText = () => {
     <div>
       <section className="max-w-2xl mb-24">
         <h1 className="head_text text-left yellow_gradient">
-          Generate real-time speech to text
+          Generate speech to text on the fly
         </h1>
 
         <div className="w-full">
@@ -110,26 +110,7 @@ const CreateText = () => {
               <label for="underline_select" className="sr-only">
                 Underline select
               </label>
-              {/* <select
-                id="underline_select"
-                className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-              >
-                <option selected>Choose a LLM Model</option>
-                <option value="US">
-                  <span className="ml-1 flex-center font-satoshi font-semibold ">
-                    wav2vec2-large-960h-lv60-self by META
-                    <Image
-                      width="20"
-                      height="20"
-                      src="https://img.icons8.com/fluency/48/meta.png"
-                      alt="meta"
-                      className="ml-2"
-                    />
-                  </span>
-                </option>
-              </select> */}
             </form>
-
             <p className="font-inter font-semibold flex-center mt-2 mb-8  text-gray-700">
               default LLM :
               <span className="ml-1 flex-center">

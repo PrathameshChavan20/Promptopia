@@ -59,9 +59,10 @@ const Form = ({
           <label>
             <br />
             <span className="font-satoshi font-semibold text-base text-grey-700">
-              Upload the AI Generated Image
+              Upload the AI Generated Content
             </span>
-            <div class="flex items-center justify-center w-full">
+            <span className="font-normal font-satoshi m-2">(Optional)</span>
+            <div class="flex items-center justify-center w-full mt-2">
               <label
                 htmlFor="dropzone-file"
                 className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
@@ -87,7 +88,7 @@ const Form = ({
                     drag and drop
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
-                    SVG, PNG, JPG or GIF (MAX. 2MB)
+                    SVG, PNG, JPG , GIF or MP3 (MAX. 2MB)
                   </p>
                 </div>
                 <input
@@ -109,7 +110,7 @@ const Form = ({
               disabled={submitting}
               className="px-5 py-1.5 text-md bg-primary-orange rounded-full mt-5 text-white"
             >
-              {submitting ? <SpinnerButton title="Posting"/> : type}
+              {submitting ? <SpinnerButton title="Posting" /> : type}
             </button>
           </div>
         </form>
