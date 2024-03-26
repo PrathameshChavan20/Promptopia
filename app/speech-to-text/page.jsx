@@ -13,6 +13,7 @@ const CreateText = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [recoredData, setRecordedData] = useState(null);
+  const [responseText, setResponseText] = useState(null);
 
   const { data: session } = useSession();
 
@@ -37,7 +38,7 @@ const CreateText = () => {
 
       newMediaRecorder.addEventListener("stop", () => {
         const blob = new Blob(chunks, { type: "audio/flac" });
-        setRecordedData(URL.createObjectURL(blob));
+        setRecordedData(blob);
         toast.success("Your voice is captured.", {
           duration: 3000,
         });
@@ -72,6 +73,7 @@ const CreateText = () => {
       setIsSubmitting(false);
       return;
     }
+
     const formData = new FormData();
     formData.append("audio", recoredData);
 
@@ -82,13 +84,12 @@ const CreateText = () => {
       });
       const data = await response.json();
       if (response.status != 200) {
-        console.log(data);
         toast.error(data.message, {
           duration: 3000,
         });
         return;
       }
-      console.log(data.data);
+      setResponseText(data.text);
     } catch (error) {
       console.log(error);
     } finally {
@@ -105,10 +106,34 @@ const CreateText = () => {
 
         <div className="w-full">
           <form className="mt-10 w-full max-w2xl flex-col gap-7 glassmorphism">
+            <form className="max-w-sm mx-auto">
+              <label for="underline_select" className="sr-only">
+                Underline select
+              </label>
+              {/* <select
+                id="underline_select"
+                className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+              >
+                <option selected>Choose a LLM Model</option>
+                <option value="US">
+                  <span className="ml-1 flex-center font-satoshi font-semibold ">
+                    wav2vec2-large-960h-lv60-self by META
+                    <Image
+                      width="20"
+                      height="20"
+                      src="https://img.icons8.com/fluency/48/meta.png"
+                      alt="meta"
+                      className="ml-2"
+                    />
+                  </span>
+                </option>
+              </select> */}
+            </form>
+
             <p className="font-inter font-semibold flex-center mt-2 mb-8  text-gray-700">
               default LLM :
               <span className="ml-1 flex-center">
-                Wav2Vec2-Base-960h by META
+                wav2vec2-large-960h-lv60-self by META
                 <Image
                   width="20"
                   height="20"
@@ -135,51 +160,15 @@ const CreateText = () => {
                       : "Start recording directly from browser."}
                   </button>
                 </div>
-
-                <span className="flex justify-center font-satoshi font-semibold text-amber-500 mb-5">
-                  OR
-                </span>
-                <label
-                  htmlFor="dropzone-file"
-                  className="flex items-center justify-center w-full h-2/3 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-                >
-                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    <svg
-                      className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 20 16"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                      />
-                    </svg>
-                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                      <span className="font-semibold">Click to upload</span> or
-                      drag and drop
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      MP3, FLAC (MAX. 10MB)
-                    </p>
-                  </div>
-                  <input
-                    id="dropzone-file"
-                    name="file"
-                    type="file"
-                    className="hidden"
-                    onChange={(e) => handleFileChange(e.target.files[0])}
-                  />
-                </label>
               </div>
             </label>
             <div className="flex justify-center mt-5 mb-5">
               {recoredData ? (
-                <audio controls src={recoredData} type="audio/flac" />
+                <audio
+                  controls
+                  src={URL.createObjectURL(recoredData)}
+                  type="audio/flac"
+                />
               ) : null}
             </div>
             <div className="flex-center mx-5 mb-5 gap-4">
@@ -194,6 +183,13 @@ const CreateText = () => {
               <Link href="/" className="text-grey-500 text-sm mt-5">
                 Cancel
               </Link>
+            </div>
+            <div>
+              {responseText ? (
+                <div className="font-sans flex-center justify-center align-center text-pink-700 p-5 font-semibold">
+                  Text : {responseText}
+                </div>
+              ) : null}
             </div>
           </form>
         </div>
