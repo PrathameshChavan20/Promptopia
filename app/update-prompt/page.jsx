@@ -17,6 +17,8 @@ const EditPrompt = () => {
       setPost({
         prompt: data.prompt,
         tag: data.tag,
+        contentType:data.contentType,
+        contentURL:data.contentURL
       });
     };
     if (promptId) getPromptDetails();

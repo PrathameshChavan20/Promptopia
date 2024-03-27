@@ -20,6 +20,9 @@ const promptSchema = new Schema({
   contentType: {
     type: String,
   },
+  locationPath: {
+    type: String,
+  },
 });
 const Prompt = models.Prompt || model("Prompt", promptSchema);
 export default Prompt;

@@ -38,7 +38,6 @@ const CreatePrompt = () => {
       }
 
       let contentType = data.type;
-
       const response2 = await fetch("/api/prompt/new", {
         method: "POST",
         body: JSON.stringify({
@@ -47,6 +46,7 @@ const CreatePrompt = () => {
           tag: post.tag,
           contentURL: data ? data.url : null,
           contentType: contentType,
+          locationPath:data.locationPath
         }),
       });
 
