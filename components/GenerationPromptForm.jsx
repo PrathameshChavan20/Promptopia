@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import Unauthorised from "@/components/Unauthorised";
 import Link from "next/link";
 import Image from "next/image";
-import SpinnerButton from "./SpinnerButton";
+import SpinnerButton from "@/components/SpinnerButton";
 const createPromptForm = ({
   type,
   creationType,
@@ -16,6 +16,8 @@ const createPromptForm = ({
   audioSkeleton,
   imgRes,
   imageSkeleton,
+  handleSharePost,
+  sharing,
 }) => {
   const { data: session } = useSession();
   const downloadAudio = (audioURL) => {
@@ -140,19 +142,6 @@ const createPromptForm = ({
                     />
                     Download audio
                   </button>
-                  {/* <button
-                      className="bg-gray-500 hover:bg-gray-600 text-white font-inter p-1 flex m-5 justify-center rounded-lg"
-                      onClick={() => downloadAudio(audioURL)}
-                    >
-                      <Image
-                        width={25}
-                        height={25}
-                        src="https://img.icons8.com/sf-black/64/downloading-updates.png"
-                        alt="downloading-updates"
-                        className="mr-2"
-                      />
-                      Make the Post
-                    </button> */}
                 </div>
               ) : null}
             </section>
@@ -169,6 +158,32 @@ const createPromptForm = ({
             </section>
           ) : null}
         </div>
+        {imageSkeleton || audioSkeleton ? (
+          <center>
+            <button
+              type="button"
+              className="flex mt-5 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-4 py-2 text-center me-2 mb-2"
+              onClick={handleSharePost}
+            >
+              {sharing ? (
+                <div className="flex">
+                  <SpinnerButton title="Posting" />
+                </div>
+              ) : (
+                <div className="flex">
+                  <Image
+                    width={20}
+                    height={20}
+                    src="https://img.icons8.com/ios-filled/50/paper-plane.png"
+                    alt="downloading-updates"
+                    className="mr-2"
+                  />
+                  Share this to the Post
+                </div>
+              )}
+            </button>
+          </center>
+        ) : null}
       </section>
     </div>
   ) : (

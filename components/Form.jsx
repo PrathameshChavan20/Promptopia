@@ -14,11 +14,11 @@ const Form = ({
   handleFileChange,
 }) => {
   const { data: session } = useSession();
-  const [bgImage,setBGImage] = useState(null)
-  const showBackgroundImage = (e) => {   
-    setBGImage(URL.createObjectURL(e.target.files[0]))
-    handleFileChange(e.target.files[0])
-  }
+  const [bgImage, setBGImage] = useState(null);
+  const showBackgroundImage = (e) => {
+    setBGImage(URL.createObjectURL(e.target.files[0]));
+    handleFileChange(e.target.files[0]);
+  };
   return session?.user ? (
     <div>
       <section className="w-full max-w-full flex-start flex-col mb-10">
@@ -71,16 +71,25 @@ const Form = ({
             <div class="flex items-center justify-center w-full mt-2">
               <label
                 htmlFor="dropzone-file"
-                className= {`flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 ${bgImage? `border-none`:null}  ${post.contentURL? `border-none`:null}`}
+                className={`flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 ${
+                  bgImage ? `border-none` : null
+                }  ${post.contentURL ? `border-none` : null}`}
                 style={{
-                  backgroundImage: bgImage || post.contentURL ? `url(${bgImage || post.contentURL})` : 'none',
-                  backgroundSize: 'contain',
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat',
-                  textContent:""
+                  backgroundImage:
+                    bgImage || post.contentURL
+                      ? `url(${bgImage || post.contentURL})`
+                      : "none",
+                  backgroundSize: "contain",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  textContent: "",
                 }}
-              >                
-                <div className={`flex flex-col items-center justify-center pt-5 pb-6 ${bgImage||post.contentURL?`hidden`:null}`}>
+              >
+                <div
+                  className={`flex flex-col items-center justify-center pt-5 pb-6 ${
+                    bgImage || post.contentURL ? `hidden` : null
+                  }`}
+                >
                   <svg
                     className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
                     aria-hidden="true"
@@ -101,7 +110,7 @@ const Form = ({
                     drag and drop
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
-                    SVG, PNG, JPG , GIF or MP3 (MAX. 2MB)
+                    SVG, PNG, JPG , GIF or MP3
                   </p>
                 </div>
                 <input
@@ -112,9 +121,7 @@ const Form = ({
                   onChange={(e) => showBackgroundImage(e)}
                 />
               </label>
-              <div className="flex">
-            </div>
-             
+              <div className="flex"></div>
             </div>
           </label>
           <div className="flex-end mx-5 mb-5 gap-4">

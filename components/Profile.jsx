@@ -1,11 +1,10 @@
 "use client";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import PromptsCard from "@/components/PromptsCard";
+
 const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
   const { data: session } = useSession();
-  const router = useRouter();
   return session?.user ? (
     <div>
       <section>

@@ -64,7 +64,9 @@ const PromptsCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
         </div>
       </div>
       <div>
-        {post?.contentURL && post?.contentType === "image/jpeg" ? (
+        {post?.contentURL &&
+        (post?.contentType === "image/jpeg" ||
+          post?.contentType === "image/png") ? (
           <div className="mt-5 mb-5">
             <img
               src={post.contentURL}
