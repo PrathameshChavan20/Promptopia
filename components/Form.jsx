@@ -15,10 +15,25 @@ const Form = ({
 }) => {
   const { data: session } = useSession();
   const [bgImage, setBGImage] = useState(null);
+  const [fileName, setFileName] = useState(null);
+
   const showBackgroundImage = (e) => {
-    setBGImage(URL.createObjectURL(e.target.files[0]));
-    handleFileChange(e.target.files[0]);
+    const file = e.target.files[0];
+    const isImage = file.type.startsWith("image/");
+    const isAudio = file.type.startsWith("audio/");
+    if (isImage) {
+      setBGImage(URL.createObjectURL(file));
+      setFileName(null);
+    } else if (isAudio) {
+      setFileName(file.name);
+      setBGImage(null);
+    } else {
+      setFileName(file.name);
+      setBGImage(null);
+    }
+    handleFileChange(file);
   };
+
   return session?.user ? (
     <div>
       <section className="w-full max-w-full flex-start flex-col mb-10">
@@ -120,6 +135,7 @@ const Form = ({
                   className="hidden"
                   onChange={(e) => showBackgroundImage(e)}
                 />
+                {fileName ? <p>Selected file: {fileName}</p> : null}
               </label>
               <div className="flex"></div>
             </div>

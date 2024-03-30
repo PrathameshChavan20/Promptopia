@@ -24,8 +24,10 @@ const MyProfile = () => {
 
     if (hasConfirmed) {
       try {
-        const fileRef = ref(storage, post.locationPath);
-        await deleteObject(fileRef);
+        if (post.locationPath) {
+          const fileRef = ref(storage, post.locationPath);
+          await deleteObject(fileRef);
+        }
         const response = await fetch(`/api/prompt/${post._id.toString()}`, {
           method: "DELETE",
         });

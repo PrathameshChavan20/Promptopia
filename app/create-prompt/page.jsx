@@ -37,7 +37,9 @@ const CreatePrompt = () => {
         data = await response.json();
       }
 
-      let contentType = data.type;
+      let contentType = null;
+      if (data?.type) contentType = data.type;
+      console.log(data)
       const response2 = await fetch("/api/prompt/new", {
         method: "POST",
         body: JSON.stringify({
@@ -46,13 +48,14 @@ const CreatePrompt = () => {
           tag: post.tag,
           contentURL: data ? data.url : null,
           contentType: contentType,
-          locationPath:data.locationPath
+          locationPath: data?.locationPath ? data?.locationPath : null,
         }),
       });
 
       if (!response2.ok) {
         toast.error("Error in posting...");
         setPost({ prompt: "", tag: "" });
+        setFile(null);
       }
       toast.success("Post created succesfully.", { duration: 5000 });
       router.push("/");
