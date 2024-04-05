@@ -19,8 +19,8 @@ const Form = ({
 
   const showBackgroundImage = (e) => {
     const file = e.target.files[0];
-    const isImage = file.type.startsWith("image/");
-    const isAudio = file.type.startsWith("audio/");
+    const isImage = file?.type?.startsWith("image/");
+    const isAudio = file?.type?.startsWith("audio/");
     if (isImage) {
       setBGImage(URL.createObjectURL(file));
       setFileName(null);
@@ -36,7 +36,7 @@ const Form = ({
 
   return session?.user ? (
     <div>
-      <section className="w-full max-w-full flex-start flex-col mb-10">
+      <section className="w-full max-w-3xl flex-start flex-col mb-10">
         <h1 className="head_text text-left">
           <span className="blue_gradient">{type} a post</span>
         </h1>
@@ -47,7 +47,7 @@ const Form = ({
         <form
           onSubmit={handleSubmit}
           className="mt-10 w-full max-w2xl flex-col gap-7 glassmorphism"
-          enctype="multipart/form-data"
+          encType="multipart/form-data"
         >
           <label>
             <span className="font-satoshi font-semibold text-base text-grey-700">
@@ -83,7 +83,7 @@ const Form = ({
               Upload the AI Generated Content
             </span>
             <span className="font-normal font-satoshi m-2">(Optional)</span>
-            <div class="flex items-center justify-center w-full mt-2">
+            <div className="flex items-center justify-center w-full mt-2">
               <label
                 htmlFor="dropzone-file"
                 className={`flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 ${
@@ -114,9 +114,9 @@ const Form = ({
                   >
                     <path
                       stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                     />
                   </svg>
@@ -135,7 +135,16 @@ const Form = ({
                   className="hidden"
                   onChange={(e) => showBackgroundImage(e)}
                 />
-                {fileName ? <p>Selected file: {fileName}</p> : null}
+                {fileName ? (
+                  <p className="text-md font-inter  text-gray-600">
+                    Selected file: {fileName}
+                  </p>
+                ) : null}
+                {post?.contentType === "audio/mpeg" ? (
+                  <p className="text-md font-inter p-5 text-gray-600">
+                    Uploaded file: {post.contentURL.split("%2F").pop()}
+                  </p>
+                ) : null}
               </label>
               <div className="flex"></div>
             </div>

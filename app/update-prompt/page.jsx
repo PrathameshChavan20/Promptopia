@@ -3,12 +3,18 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Form from "@/components/Form";
 import { toast } from "react-hot-toast";
+
 const EditPrompt = () => {
   const router = useRouter();
   const [submitting, setIsSubmitting] = useState(false);
   const [post, setPost] = useState({ prompt: "", tag: "" });
   const searchParams = useSearchParams();
   const promptId = searchParams.get("id");
+
+  const [file, setFile] = useState(null);
+  const handleFileChange = (file) => {
+    setFile(file);
+  };
 
   useEffect(() => {
     const getPromptDetails = async () => {
@@ -17,8 +23,8 @@ const EditPrompt = () => {
       setPost({
         prompt: data.prompt,
         tag: data.tag,
-        contentType:data.contentType,
-        contentURL:data.contentURL
+        contentType: data.contentType,
+        contentURL: data.contentURL,
       });
     };
     if (promptId) getPromptDetails();
@@ -29,19 +35,26 @@ const EditPrompt = () => {
     setIsSubmitting(true);
     if (!promptId) return toast.error("Prompt id is missing!");
     try {
+      const formData = new FormData();
+      if (!file) {
+        formData.append("prompt", post.prompt);
+        formData.append("tag", post.tag);
+      } else {
+        formData.append("prompt", post.prompt);
+        formData.append("tag", post.tag);
+        formData.append("file", file);
+        formData.append("postContentURL", post.contentURL);
+      }
+
       const response = await fetch("/api/prompt/" + promptId, {
         method: "PATCH",
-        body: JSON.stringify({
-          prompt: post.prompt,
-          tag: post.tag,
-        }),
+        body: formData,
       });
-
       if (response.ok) {
         router.push("/");
-        toast.success("Changes made successfully.",{
-          duration:5000
-        })
+        toast.success("Changes made successfully.", {
+          duration: 5000,
+        });
       }
     } catch (error) {
       console.log(error);
@@ -56,6 +69,7 @@ const EditPrompt = () => {
       post={post}
       setPost={setPost}
       submitting={submitting}
+      handleFileChange={handleFileChange}
       handleSubmit={updatePrompt}
     />
   );
