@@ -103,7 +103,10 @@ const CreateText = () => {
         <h1 className="head_text text-left yellow_gradient">
           Generate speech to text on the fly
         </h1>
-
+        <p className="desc text-left max-w-md">
+          From voice to text, we've mastered the conversion - revolutionize your
+          workflow today.
+        </p>
         <div className="w-full">
           <form className="mt-10 w-full max-w2xl flex-col gap-7 glassmorphism">
             <form className="max-w-sm mx-auto">
