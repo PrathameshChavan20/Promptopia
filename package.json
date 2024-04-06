@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
-		"start": "next start",
+		"start": "concurrently \"node app/api/queue/emailWorker.js\" \"next start\"",
 		"lint": "next lint",
 		"worker": "node app/api/queue/emailWorker.js",
 		"concurrent": "concurrently \"yarn dev\" \"yarn worker\""
