@@ -5,10 +5,10 @@
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
-		"start": "next start && node app/api/queue/emailWorker.js",
+		"start": "concurrently \"next start\" \"npm run worker\"",
 		"lint": "next lint",
 		"worker": "node app/api/queue/emailWorker.js",
-		"concurrent": "concurrently \"yarn dev\" \"yarn worker\""
+		"concurrent": "concurrently \"next start\" \"node app/api/queue/emailWorker.js\""
 	},
 	"dependencies": {
 		"axios": "^1.6.7",

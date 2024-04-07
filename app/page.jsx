@@ -12,7 +12,7 @@ function Home() {
         </h1>
         <p className="desc text-center">
           Promptopia is open source AI-Prompting tool for the modern world to
-          discover,create and share prompts.
+          discover, create and share AI-Artwork.
         </p>
         <Feed/>
       </section>
